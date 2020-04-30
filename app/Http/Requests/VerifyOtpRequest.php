@@ -8,7 +8,7 @@
 	use Illuminate\Http\JsonResponse;
 	use Illuminate\Validation\ValidationException;
 	
-	class RegisterUserRequest extends FormRequest
+	class VerifyOtpRequest extends FormRequest
 	{
 		/**
 		 * Determine if the user is authorized to make this request.
@@ -28,10 +28,8 @@
 		public function rules()
 		{
 			return [
-				'name'          => 'required|string',
-				'email'         => 'sometimes|email',
-				'mobile_number' => 'required|numeric|unique:users|regex:/(09)[0-9]{9}/',
-				'password'      => 'required|string|min:6|max:10'
+				'mobile_number' => 'required|numeric|regex:/(09)[0-9]{9}/',
+				'code'          => 'required|numeric',
 			];
 		}
 		
@@ -43,9 +41,8 @@
 		public function filters()
 		{
 			return [
-				'email'         => 'trim|lowercase',
 				'mobile_number' => 'trim',
-				'name'          => 'trim|capitalize|escape'
+				'code' => 'trim',
 			];
 		}
 		

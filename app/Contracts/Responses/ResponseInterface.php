@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Contracts;
+namespace App\Contracts\Response;
 
 
 interface ResponseInterface

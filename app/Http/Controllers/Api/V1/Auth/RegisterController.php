@@ -4,25 +4,28 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 
-use App\Contracts\UserRegisterResponse;
+use App\Contracts\Response\UserRegisterResponse;
 use App\Entities\UserEntity;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\RegisterUserRequest;
+use App\Repositories\RepositoryInterface;
+use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterController extends ApiController
 {
     protected $user;
-
-    /**
-     * UserController constructor.
-     * @param UserRepositoryInterface $user
-     */
-    public function __construct(UserRepositoryInterface $user)
+	
+	/**
+	 * RegisterController constructor.
+	 * @param UserRepository $repository
+	 */
+    public function __construct(UserRepository $repository)
     {
-        $this->user = $user;
+        $this->user = $repository;
     }
 
     public function index(RegisterUserRequest $request)
@@ -34,6 +37,7 @@ class RegisterController extends ApiController
             $userEntity->setEmail($request->get('email'));
             $userEntity->setName($request->get('name'));
             $userEntity->setPassword($request->get('password'));
+            $userEntity->setMobileNumber($request->get('mobile_number'));
             $user = $this->user->create($userEntity);
 
             $token = JWTAuth::fromUser($user);
@@ -47,7 +51,8 @@ class RegisterController extends ApiController
 
             return $this->successResponse($response);
         } catch (Exception $exception) {
-            return $this->FailResponse($exception->getMessage());
+        	Log::error($exception->getMessage());
+            return $this->FailResponse(trans('api.register_failed'),400);
         }
     }
 }

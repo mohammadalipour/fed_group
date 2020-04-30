@@ -3,29 +3,31 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 
-use App\Contracts\UserLoginResponse;
+use App\Contracts\Response\UserLoginResponse;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\LoginUserRequest;
+use App\Repositories\RepositoryInterface;
+use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends ApiController
 {
     protected $user;
-
-    /**
-     * UserController constructor.
-     * @param UserRepositoryInterface $user
-     */
-    public function __construct(UserRepositoryInterface $user)
+	
+	/**
+	 * LoginController constructor.
+	 * @param UserRepository $repository
+	 */
+    public function __construct(UserRepository $repository)
     {
-        $this->user = $user;
+        $this->user = $repository;
     }
 
     public function index(LoginUserRequest $request)
     {
         $request->validated();
-        $input = $request->only('email', 'password');
+        $input = $request->only('mobile', 'password');
 
         if (!$token = JWTAuth::attempt($input)) {
             return $this->failResponse(trans('api.invalid_email_or_password'));

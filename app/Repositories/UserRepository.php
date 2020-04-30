@@ -2,19 +2,19 @@
 	
 	namespace App\Repositories;
 	
-	use Illuminate\Contracts\Auth\Authenticatable;
+	use App\Entities\Entity;
 	use App\Entities\UserEntity;
 	use App\User;
 	
-	class UserRepository implements UserRepositoryInterface
+	class UserRepository implements RepositoryInterface
 	{
 		
 		/**
 		 * @inheritDoc
 		 */
-		public function get($userId)
+		public function get($id)
 		{
-			return User::find($userId);
+			return User::find($id);
 		}
 		
 		/**
@@ -28,30 +28,31 @@
 		/**
 		 * @inheritDoc
 		 */
-		public function delete($userId)
+		public function delete($id)
 		{
-			return User::destroy($userId);
+			return User::destroy($id);
 		}
 		
 		/**
 		 * @inheritDoc
 		 */
-		public function update($userId, array $userData)
+		public function update($id, array $data)
 		{
-			return User::find($userId)->update($userData);
+			return User::find($id)->update($data);
 		}
 		
 		/**
-		 * @param UserEntity $userEntity
-		 * @return Authenticatable
+		 * @param UserEntity $entity
+		 * @return mixed
 		 */
-		public function create(UserEntity $userEntity)
+		public function create(Entity $entity)
 		{
 			return User::create(
 				[
-					'email'    => $userEntity->getEmail(),
-					'password' => bcrypt($userEntity->getPassword()),
-					'name'     => $userEntity->getName(),
+					'email'         => $entity->getEmail(),
+					'mobile_number' => $entity->getMobileNumber(),
+					'password'      => bcrypt($entity->getPassword()),
+					'name'          => $entity->getName(),
 				]
 			);
 		}
