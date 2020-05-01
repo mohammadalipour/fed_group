@@ -72,7 +72,7 @@
 		public function isValid($mobileNumber, $code): bool
 		{
 			$otp = $this->getByMobileNumberAndCode($mobileNumber, $code);
-			
+
 			return ($otp->count() > 0) ? true : false;
 		}
 		
@@ -87,7 +87,7 @@
 			try{
 				return Otp::where('mobile_number', $mobileNumber)
 					->where('code', $code)
-					->whereDate('expired_at', '>', Carbon::now())
+					->where('expired_at', '>', Carbon::now())
 					->orderBY('created_at', 'DESC');
 			}catch (\Exception $exception){
 				throw new \Exception($exception->getMessage());

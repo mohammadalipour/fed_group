@@ -1,8 +1,9 @@
 <?php
 	
-	namespace App\Http\Controllers\Api\V1\Auth;
+	namespace App\Http\Controllers\Api\V1\Main\Auth;
 	
 	use App\Contracts\Responses\SendOtpResponse;
+	use App\Contracts\Responses\VerifyOtpResponse;
 	use App\Contracts\Services\Pigeon\Pigeon;
 	use App\Contracts\Services\Pigeon\Providers\KaveNegarProvider;
 	use App\Contracts\Services\Secretary\Secretary;
@@ -11,8 +12,9 @@
 	use App\Http\Requests\VerifyOtpRequest;
 	use App\Repositories\OtpRepository;
 	use App\Repositories\RepositoryInterface;
+	use App\Repositories\UserRepository;
 	use Exception;
-	use Illuminate\Support\Facades\Log;
+	use Tymon\JWTAuth\Facades\JWTAuth;
 	
 	class OtpController extends ApiController
 	{
@@ -34,7 +36,7 @@
 			$mobileNumber = $request->get('mobile_number');
 			
 			try {
-				$secretary = new Secretary(new OtpRepository());
+				$secretary = new Secretary($this->otp);
 				$otp = $secretary->otp()->generate()->setMobileNumber($mobileNumber)->store();
 				
 				$pigeon = new Pigeon(new KaveNegarProvider());
@@ -59,16 +61,29 @@
 			$mobileNumber = $request->get('mobile_number');
 			$code = $request->get('code');
 			
+			$secretary = new Secretary($this->otp);
+			if (!$isValid = $secretary->otp()->setMobileNumber($mobileNumber)->setCode($code)->validate()) {
+				return $this->FailResponse(trans('api.the_code_entered_is_incorrect'), 301);
+			}
+			
+			$secretary->otp()->setMobileNumber($mobileNumber)->setCode($code)->expire();
+			
 			try {
-				$secretary = new Secretary(new OtpRepository());
-				if($isValid = $secretary->otp()->setMobileNumber($mobileNumber)->setCode($code)->validate()){
-					//check is a registered user?
-					
-					//if true => return token else return register page
+				$userRepository = new UserRepository();
+				$response = new VerifyOtpResponse();
+				
+				if ($user = $userRepository->findByMobileNumber($mobileNumber)) {
+					$token = JWTAuth::fromUser($user);
+					$response->setIsUserRegistered(true);
+					$response->setUser($user->toArray());
+					$response->setToken($token);
 				}
 				
+				$response->setData();
+				
+				return $this->successResponse($response);
 			} catch (Exception $exception) {
-			
+				return $this->FailResponse(trans('api.verify_otp_is_filed'), 400);
 			}
 		}
 	}

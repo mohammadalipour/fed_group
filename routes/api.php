@@ -12,11 +12,15 @@
 */
 Route::group(['prefix' => 'v1'], function () {
     //auth
-    Route::post('register', 'Api\V1\Auth\RegisterController@index');
-    Route::post('login', 'Api\V1\Auth\LoginController@index');
-    Route::get('logout', 'Api\V1\Auth\LogoutController@index');
-    Route::post('auth/otp/send', 'Api\V1\Auth\OtpController@send');
-
+    Route::post('register', 'Api\V1\Main\Auth\RegisterController@index');
+    Route::post('login', 'Api\V1\Main\Auth\LoginController@index');
+    Route::get('logout', 'Api\V1\Main\Auth\LogoutController@index');
+    Route::post('auth/otp/send', 'Api\V1\Main\Auth\OtpController@send');
+    Route::post('auth/otp/verify', 'Api\V1\Main\Auth\OtpController@verify');
+    
+    //venture
+	Route::get('venture', 'Api\V1\Main\Venture\VentureController@index');
+	Route::get('ventures', 'Api\V1\Main\Venture\VentureController@list');
 });
 
 

@@ -56,4 +56,9 @@
 				]
 			);
 		}
+		
+		public function findByMobileNumber($mobileNumber)
+		{
+			return User::where('mobile_number', $mobileNumber)->first();
+		}
 	}

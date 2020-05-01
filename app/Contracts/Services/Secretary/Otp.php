@@ -105,6 +105,7 @@
 		
 		/**
 		 * @return bool
+		 * @throws Exception
 		 */
 		public function validate()
 		{
@@ -113,6 +114,7 @@
 		
 		/**
 		 * @return mixed
+		 * @throws Exception
 		 */
 		public function expire()
 		{
