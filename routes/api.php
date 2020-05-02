@@ -21,6 +21,10 @@ Route::group(['prefix' => 'v1'], function () {
     //venture
 	Route::get('venture', 'Api\V1\Main\Venture\VentureController@index');
 	Route::get('ventures', 'Api\V1\Main\Venture\VentureController@list');
+	
+	//page
+	Route::get('page', 'Api\V1\Main\Page\PageController@index');
+	
 });
 
 

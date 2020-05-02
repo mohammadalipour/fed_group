@@ -7,6 +7,7 @@
 	use App\Http\Requests\VentureListRequest;
 	use App\Http\Requests\VentureRequest;
 	use App\Repositories\VentureRepository;
+	use Illuminate\Support\Facades\Log;
 	
 	class VentureController extends ApiController
 	{
@@ -29,11 +30,17 @@
 		{
 			$request->validated();
 			
-			$list = $this->venture->paginate();
-			$response = new VentureListResponse();
-			$response->setItems($list)
-				->setData();
-			
-			return $this->successResponse($response);
+			try{
+				$list = $this->venture->paginate();
+				$response = new VentureListResponse();
+				$response->setItems($list)
+					->setData();
+				
+				return $this->successResponse($response);
+			}catch (\Exception $exception){
+				Log::error($exception->getMessage());
+				
+				return $this->FailResponse(trans('api.page_not_found'), 400);
+			}
 		}
 	}

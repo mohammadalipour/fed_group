@@ -15,7 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('type',['about_me','contact_us','term_and_condition','static_page']);
+            $table->enum('type',['about_us','contact_us','term_and_condition','static_page']);
             $table->longText('content');
             $table->timestamps();
         });

@@ -9,4 +9,5 @@
 		'otp_send_to_mobile_number'     => 'Otp send to mobile number :mobile_number',
 		'the_code_entered_is_incorrect' => 'The code entered is incorrect',
 		'verify_otp_is_filed'           => 'Verify OTP is failed',
+		'page_not_found'                => 'Page not found',
 	];
