@@ -8,7 +8,8 @@
 	use Illuminate\Http\JsonResponse;
 	use Illuminate\Validation\ValidationException;
 	
-	class VentureListRequest extends FormRequest
+	
+	class ProfileRequest extends FormRequest
 	{
 		/**
 		 * Determine if the user is authorized to make this request.
@@ -19,6 +20,7 @@
 		{
 			return true;
 		}
+		
 		
 		/**
 		 * Get the validation rules that apply to the request.

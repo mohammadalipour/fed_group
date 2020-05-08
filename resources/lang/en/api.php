@@ -10,4 +10,5 @@
 		'the_code_entered_is_incorrect' => 'The code entered is incorrect',
 		'verify_otp_is_filed'           => 'Verify OTP is failed',
 		'page_not_found'                => 'Page not found',
+		'action_is_fail'                => 'Action is fail',
 	];

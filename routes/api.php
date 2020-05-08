@@ -14,16 +14,25 @@ Route::group(['prefix' => 'v1'], function () {
     //auth
     Route::post('register', 'Api\V1\Main\Auth\RegisterController@index');
     Route::post('login', 'Api\V1\Main\Auth\LoginController@index');
-    Route::get('logout', 'Api\V1\Main\Auth\LogoutController@index');
     Route::post('auth/otp/send', 'Api\V1\Main\Auth\OtpController@send');
     Route::post('auth/otp/verify', 'Api\V1\Main\Auth\OtpController@verify');
-    
-    //venture
-	Route::get('venture', 'Api\V1\Main\Venture\VentureController@index');
-	Route::get('ventures', 'Api\V1\Main\Venture\VentureController@list');
 	
-	//page
-	Route::get('page', 'Api\V1\Main\Page\PageController@index');
+	
+	Route::group(['middleware' => 'jwt.auth'], function () {
+		//profile
+		Route::get('user/profile', 'Api\V1\Main\User\UserController@profile');
+		Route::put('user/profile', 'Api\V1\Main\User\UserController@profile');
+		
+		//page
+		Route::get('page', 'Api\V1\Main\Page\PageController@index');
+		
+		//venture
+		Route::get('venture', 'Api\V1\Main\Venture\VentureController@index');
+		Route::get('ventures', 'Api\V1\Main\Venture\VentureController@list');
+		
+		//logout
+		Route::get('logout', 'Api\V1\Main\Auth\LogoutController@index');
+	});
 	
 });
 
