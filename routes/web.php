@@ -16,6 +16,4 @@ Route::get('/', 'Auth\LoginController@showLoginForm');
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Auth::routes();
-Route::get('panel/home', 'panel\HomeController@index')->name('home')->middleware('auth');
-Route::post('panel/product/import', 'panel\ProductController@import')->name('import-product')->middleware('api');
-Route::post('panel/category/import', 'panel\ProductController@import')->name('import-category')->middleware('api');
+Route::get('referral/{hash}', 'ReferralController@index')->name('referral');

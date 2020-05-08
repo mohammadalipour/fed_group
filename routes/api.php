@@ -19,9 +19,13 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	
 	Route::group(['middleware' => 'jwt.auth'], function () {
+		
 		//profile
 		Route::get('user/profile', 'Api\V1\Main\User\UserController@profile');
 		Route::put('user/profile', 'Api\V1\Main\User\UserController@update');
+		
+		//referral
+		Route::get('user/referral', 'Api\V1\Main\User\UserController@referral');
 		
 		//page
 		Route::get('page', 'Api\V1\Main\Page\PageController@index');
