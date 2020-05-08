@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: digitalocean.com/php
-    container_name: snapp_test
+    container_name: fedgroup_app
     restart: unless-stopped
     tty: true
     environment:
@@ -25,7 +25,7 @@ services:
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: webserver_snapp_test
+    container_name: fedgroup_webserver
     restart: unless-stopped
     tty: true
     ports:
@@ -40,13 +40,13 @@ services:
   #MySQL Service
   db:
     image: mysql:5.7.22
-    container_name: db-snapp-test
+    container_name: fedgroup_db
     restart: unless-stopped
     tty: true
     ports:
       - "33060:3306"
     environment:
-      MYSQL_DATABASE: snapp_test
+      MYSQL_DATABASE: fedgroup
       MYSQL_ROOT_PASSWORD: 123qwe
       SERVICE_TAGS: prod
       SERVICE_NAME: mysql
