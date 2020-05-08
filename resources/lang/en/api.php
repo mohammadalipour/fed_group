@@ -11,4 +11,5 @@
 		'verify_otp_is_filed'           => 'Verify OTP is failed',
 		'page_not_found'                => 'Page not found',
 		'action_is_fail'                => 'Action is fail',
+		'action_is_success'             => 'Action is success',
 	];
