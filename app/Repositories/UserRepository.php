@@ -57,6 +57,14 @@
 			);
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
+		public function paginate($perPage = 10)
+		{
+			return User::paginate($perPage)->load('role');
+		}
+		
 		public function findByMobileNumber($mobileNumber)
 		{
 			return User::where('mobile_number', $mobileNumber)->first();

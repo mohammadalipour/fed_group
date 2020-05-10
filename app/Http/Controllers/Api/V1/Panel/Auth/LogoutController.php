@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\V1\Main\Auth;
+namespace App\Http\Controllers\Api\V1\Panel\Auth;
 
 
 use App\Http\Controllers\Api\ApiController;
