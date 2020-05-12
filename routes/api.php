@@ -41,12 +41,16 @@
 	});
 	
 	Route::group(['prefix' => 'panel/v1'], function () {
-		
 		Route::group(['middleware' => 'jwt.auth'], function () {
-			
 			//user
-			Route::get('user/list', 'Api\V1\Panel\User\UserController@list');
+			Route::get('users', 'Api\V1\Panel\User\UserController@list');
+			Route::get('user', 'Api\V1\Panel\User\UserController@index');
+			Route::post('user', 'Api\V1\Panel\User\UserController@create');
+			Route::put('user', 'Api\V1\Panel\User\UserController@update');
 			
+			//role
+			Route::get('roles', 'Api\V1\Panel\Role\RoleController@list');
+			Route::get('role', 'Api\V1\Panel\Role\RoleController@index');
 		});
 	});
 

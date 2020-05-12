@@ -14,7 +14,7 @@
 		 */
 		public function get($id)
 		{
-			return User::find($id);
+			return User::find($id)->load('role');
 		}
 		
 		/**
