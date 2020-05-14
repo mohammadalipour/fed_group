@@ -17,12 +17,7 @@ class CreateImpactsTable extends Migration
 	        $table->bigIncrements('id');
 	        $table->string('title');
 	        $table->text('description');
-	        $table->unsignedBigInteger('venture_impact_id');
 	        $table->timestamps();
-	        $table->foreign('venture_impact_id')
-		        ->references('id')
-		        ->on('venture_impacts')
-		        ->onDelete('cascade');
         });
     }
 
