@@ -2,22 +2,39 @@
 	
 	namespace App\Contracts\Responses;
 	
-	
 	use App\Contracts\Response\ResponseInterface;
 	
 	class VentureResponse implements ResponseInterface
 	{
+		protected $id;
+		
 		protected $title;
+		
 		protected $description;
+		
 		protected $color;
+		
 		protected $cover;
+		
 		protected $capacity;
-		protected $unit_price;
+		
+		protected $unitPrice;
+		
 		protected $projectReturn;
+		
 		protected $duration;
+		
 		protected $free;
 		
-		protected $data=[];
+		protected $impact;
+		
+		protected $phase;
+		
+		protected $partner;
+		
+		protected $keyFact;
+		
+		protected $data = [];
 		
 		/**
 		 * @param mixed $title
@@ -26,7 +43,6 @@
 		public function setTitle($title)
 		{
 			$this->title = $title;
-			
 			return $this;
 		}
 		
@@ -37,7 +53,6 @@
 		public function setDescription($description)
 		{
 			$this->description = $description;
-			
 			return $this;
 		}
 		
@@ -48,7 +63,6 @@
 		public function setColor($color)
 		{
 			$this->color = $color;
-			
 			return $this;
 		}
 		
@@ -69,7 +83,6 @@
 		public function setCapacity($capacity)
 		{
 			$this->capacity = $capacity;
-			
 			return $this;
 		}
 		
@@ -79,8 +92,7 @@
 		 */
 		public function setUnitPrice($unitPrice)
 		{
-			$this->unit_price = $unitPrice;
-			
+			$this->unitPrice = $unitPrice;
 			return $this;
 		}
 		
@@ -114,31 +126,78 @@
 			return $this;
 		}
 		
-		public function setData()
+		/**
+		 * @param mixed $impact
+		 * @return VentureResponse
+		 */
+		public function setImpact($impact)
 		{
-			// TODO: Implement setData() method.
+			$this->impact = $impact;
+			return $this;
+		}
+		
+		/**
+		 * @param mixed $phase
+		 * @return VentureResponse
+		 */
+		public function setPhase($phase)
+		{
+			$this->phase = $phase;
+			return $this;
+		}
+		
+		/**
+		 * @param mixed $partner
+		 * @return VentureResponse
+		 */
+		public function setPartner($partner)
+		{
+			$this->partner = $partner;
+			return $this;
+		}
+		
+		/**
+		 * @param mixed $keyFact
+		 * @return VentureResponse
+		 */
+		public function setKeyFact($keyFact)
+		{
+			$this->keyFact = $keyFact;
+			return $this;
+		}
+		
+		/**
+		 * @param $id
+		 * @return $this
+		 */
+		public function setId($id)
+		{
+			$this->id = $id;
+			return $this;
 		}
 		
 		public function getData()
 		{
-			// TODO: Implement getData() method.
+			return $this->data;
 		}
 		
-		/**
-		 * @return string
-		 */
-		public function getItems(): string
+		public function setData()
 		{
-			return $this->items;
-		}
-		
-		/**
-		 * @param $items
-		 * @return $this
-		 */
-		public function setItems($items)
-		{
-			$this->items = $items;
+			$this->data = [
+				'title'          => $this->title,
+				'description'    => $this->description,
+				'color'          => $this->color,
+				'cover'          => $this->cover,
+				'capacity'       => $this->capacity,
+				'unit_price'     => $this->unitPrice,
+				'project_return' => $this->projectReturn,
+				'duration'       => $this->duration,
+				'free'           => $this->free,
+				'impacts'        => $this->impact,
+				'phases'         => $this->phase,
+				'partners'       => $this->partner,
+				'key_facts'      => $this->keyFact,
+			];
 			
 			return $this;
 		}

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddImpactIdToVentureImpacts extends Migration
+class AddUsageIdToOrderItems extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class AddImpactIdToVentureImpacts extends Migration
      */
     public function up()
     {
-        Schema::table('venture_impacts', function (Blueprint $table) {
-	        $table->unsignedBigInteger('impact_id')->after('venture_id');
-	        $table->foreign('impact_id')
-		        ->references('id')
-		        ->on('impacts')
-		        ->onDelete('cascade');
+        Schema::table('order_items', function (Blueprint $table) {
+	        $table->unsignedBigInteger('usage_id')->after('order_id');
         });
     }
 
@@ -29,7 +25,7 @@ class AddImpactIdToVentureImpacts extends Migration
      */
     public function down()
     {
-        Schema::table('venture_impacts', function (Blueprint $table) {
+        Schema::table('order_items', function (Blueprint $table) {
             //
         });
     }

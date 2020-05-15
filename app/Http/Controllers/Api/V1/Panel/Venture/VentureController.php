@@ -2,6 +2,7 @@
 	
 	namespace App\Http\Controllers\Api\V1\Panel\Venture;
 	
+	use App\Contracts\Responses\Panel\DeleteVentureResponse;
 	use App\Contracts\Responses\Panel\VentureListResponse;
 	use App\Contracts\Responses\Panel\VentureResponse;
 	use App\Http\Controllers\Api\ApiController;
@@ -28,13 +29,12 @@
 		{
 			$request->validated();
 			
-			$ventureId = $request->get('venture_id');
-			$venture = $this->venture->get($ventureId)->load('impacts', 'phases.details', 'partners');
-			$keyFact['details'] = $venture->keyFacts()->detail($ventureId);
-			$keyFact['safe_guards'] = $venture->safeGurds()->detail($ventureId);
-			$keyFact['return_periods'] = $venture->ReturnPeriods()->detail($ventureId);
-			
 			try {
+				$ventureId = $request->get('venture_id');
+				$venture = $this->venture->get($ventureId)->load('impacts', 'phases.details', 'partners');
+				$keyFact['details'] = $venture->keyFacts()->detail($ventureId);
+				$keyFact['safe_guards'] = $venture->safeGurds()->detail($ventureId);
+				$keyFact['return_periods'] = $venture->ReturnPeriods()->detail($ventureId);
 				$response = new VentureResponse();
 				$response->setId($venture->id);
 				$response->setTitle($venture->title);
@@ -91,5 +91,16 @@
 		{
 			$request->validated();
 			
+			try {
+				$ventureId = $request->get('venture_id');
+				$this->venture->delete($ventureId);
+				
+				$response = new DeleteVentureResponse();
+				$response->setData();
+				
+				return $this->successResponse($response);
+			} catch (\Exception $exception) {
+				return $this->FailResponse(trans('api.action_is_fail'), 400);
+			}
 		}
 	}

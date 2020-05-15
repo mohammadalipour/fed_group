@@ -17,10 +17,15 @@ class CreateVentureImpactsTable extends Migration
 	        $table->bigIncrements('id');
 	        $table->string('title');
 	        $table->unsignedBigInteger('venture_id');
+	        $table->unsignedBigInteger('impact_id');
 	        $table->timestamps();
 	        $table->foreign('venture_id')
 		        ->references('id')
 		        ->on('ventures')
+		        ->onDelete('cascade');
+	        $table->foreign('impact_id')
+		        ->references('id')
+		        ->on('impacts')
 		        ->onDelete('cascade');
         });
     }

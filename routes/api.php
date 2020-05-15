@@ -41,12 +41,6 @@
 	});
 	
 	Route::group(['prefix' => 'panel/v1'], function () {
-		Route::get('ventures', 'Api\V1\Panel\Venture\VentureController@list');
-		Route::get('venture', 'Api\V1\Panel\Venture\VentureController@index');
-		Route::put('venture', 'Api\V1\Panel\Venture\VentureController@update');
-		Route::post('venture', 'Api\V1\Panel\Venture\VentureController@create');
-		Route::delete('venture', 'Api\V1\Panel\Venture\VentureController@delete');
-		
 		Route::group(['middleware' => 'jwt.auth'], function () {
 			//user
 			Route::get('users', 'Api\V1\Panel\User\UserController@list');
@@ -57,6 +51,19 @@
 			//role
 			Route::get('roles', 'Api\V1\Panel\Role\RoleController@list');
 			Route::get('role', 'Api\V1\Panel\Role\RoleController@index');
+			
+			//venture
+			Route::get('ventures', 'Api\V1\Panel\Venture\VentureController@list');
+			Route::get('venture', 'Api\V1\Panel\Venture\VentureController@index');
+			Route::delete('venture', 'Api\V1\Panel\Venture\VentureController@delete');
+			Route::put('venture', 'Api\V1\Panel\Venture\VentureController@update');
+			Route::post('venture', 'Api\V1\Panel\Venture\VentureController@create');
+			
+			//order
+			Route::get('orders', 'Api\V1\Panel\Order\OrderController@list');
+			Route::get('order', 'Api\V1\Panel\Order\OrderController@index');
+			Route::delete('order', 'Api\V1\Panel\Order\OrderController@delete');
+			Route::put('order', 'Api\V1\Panel\Order\OrderController@update');
 		});
 	});
 
