@@ -4,7 +4,6 @@
 	
 	
 	use App\Entities\Entity;
-	use App\Role;
 	use App\Voucher;
 	
 	class VoucherRepository implements RepositoryInterface
@@ -43,14 +42,17 @@
 		}
 		
 		/**
-		 * @param RoleEntity $entity
+		 * @param VoucherEntity $entity
 		 * @return mixed
 		 */
 		public function create(Entity $entity)
 		{
 			return Voucher::create(
 				[
-					'type' => $entity->getType()
+					'title'      => $entity->getTitle(),
+					'capacity'   => $entity->getCapacity(),
+					'max_off'    => $entity->getMaxOff(),
+					'expired_at' => $entity->getExpiredAt(),
 				]
 			);
 		}

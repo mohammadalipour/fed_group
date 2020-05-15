@@ -16,15 +16,10 @@ class CreateVouchersTable extends Migration
         Schema::create('vouchers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('capacity');
             $table->unsignedInteger('max_off');
             $table->timestamp('expired_at');
             $table->timestamps();
-	        $table->foreign('user_id')
-		        ->references('id')
-		        ->on('users')
-		        ->onDelete('cascade');
         });
     }
 
