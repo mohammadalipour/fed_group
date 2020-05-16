@@ -42,9 +42,11 @@
 	
 	Route::group(['prefix' => 'panel/v1'], function () {
 		Route::post('voucher', 'Api\V1\Panel\Voucher\VoucherController@create');
-		
-		
-		Route::group(['middleware' => 'jwt.auth'], function () {
+
+        Route::get('pages', 'Api\V1\Panel\Page\PageController@list');
+
+
+        Route::group(['middleware' => 'jwt.auth'], function () {
 			//user
 			Route::get('users', 'Api\V1\Panel\User\UserController@list');
 			Route::get('user', 'Api\V1\Panel\User\UserController@index');
