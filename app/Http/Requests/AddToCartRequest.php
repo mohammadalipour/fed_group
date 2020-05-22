@@ -1,6 +1,6 @@
 <?php
 	
-	namespace App\Http\Requests\Panel;
+	namespace App\Http\Requests;
 	
 	use Illuminate\Contracts\Validation\Validator;
 	use Illuminate\Foundation\Http\FormRequest;
@@ -8,7 +8,7 @@
 	use Illuminate\Http\JsonResponse;
 	use Illuminate\Validation\ValidationException;
 	
-	class UpdateVentureRequest extends FormRequest
+	class AddToCartRequest extends FormRequest
 	{
 		/**
 		 * Determine if the user is authorized to make this request.
@@ -29,16 +29,10 @@
 		public function rules()
 		{
 			return [
-				'venture_id'     => 'required|exists:ventures,id|numeric',
-				'title'          => 'required|string',
-				'description'    => 'required',
-				'color'          => 'required',
-				'cover'          => 'required',
-				'capacity'       => 'required|numeric',
-				'project_return' => 'required|numeric',
-				'unit_price'     => 'required|numeric',
-				'duration'       => 'required|numeric',
-				'free'           => 'required|numeric',
+				'user_id'  => 'required|exists:users,id|numeric',
+				'type'     => 'required|in:venture,package',
+				'usage_id' => 'required|numeric',
+				'count'    => 'required|numeric',
 			];
 		}
 		
@@ -50,15 +44,10 @@
 		public function filters()
 		{
 			return [
-				'title'          => 'trim|lowercase',
-				'description'    => 'trim',
-				'color'          => 'trim',
-				'cover'          => 'trim',
-				'capacity'       => 'trim',
-				'project_return' => 'trim',
-				'unit_price'     => 'trim',
-				'duration'       => 'trim',
-				'free'           => 'trim',
+				'user_id'  => 'trim|lowercase',
+				'type'     => 'trim',
+				'usage_id' => 'trim',
+				'count'    => 'trim'
 			];
 		}
 		

@@ -2,13 +2,14 @@
 	
 	namespace App\Http\Requests\Panel;
 	
+	
 	use Illuminate\Contracts\Validation\Validator;
 	use Illuminate\Foundation\Http\FormRequest;
 	use Illuminate\Http\Exceptions\HttpResponseException;
 	use Illuminate\Http\JsonResponse;
 	use Illuminate\Validation\ValidationException;
 	
-	class UpdateVentureRequest extends FormRequest
+	class AddVentureRequest extends FormRequest
 	{
 		/**
 		 * Determine if the user is authorized to make this request.
@@ -29,7 +30,6 @@
 		public function rules()
 		{
 			return [
-				'venture_id'     => 'required|exists:ventures,id|numeric',
 				'title'          => 'required|string',
 				'description'    => 'required',
 				'color'          => 'required',

@@ -2,13 +2,15 @@
 	
 	namespace App\Http\Controllers\Api\V1\Panel\Venture;
 	
+	use App\Contracts\Responses\Panel\AddVentureResponse;
 	use App\Contracts\Responses\Panel\DeleteVentureResponse;
 	use App\Contracts\Responses\Panel\VentureListResponse;
 	use App\Contracts\Responses\Panel\VentureResponse;
+	use App\Entities\VentureEntity;
 	use App\Http\Controllers\Api\ApiController;
-	use App\Http\Requests\Panel\CreateVentureRequest;
+	use App\Http\Requests\Panel\AddVentureRequest;
 	use App\Http\Requests\Panel\DeleteVentureRequest;
-	use App\Http\Requests\Panel\UpdatePageRequest;
+	use App\Http\Requests\Panel\UpdateVentureRequest;
 	use App\Http\Requests\Panel\VentureRequest;
 	use App\Repositories\VentureRepository;
 	
@@ -31,10 +33,8 @@
 			
 			try {
 				$ventureId = $request->get('venture_id');
-				$venture = $this->venture->get($ventureId)->load('impacts', 'phases.details', 'partners');
-				$keyFact['details'] = $venture->keyFacts()->detail($ventureId);
-				$keyFact['safe_guards'] = $venture->safeGurds()->detail($ventureId);
-				$keyFact['return_periods'] = $venture->ReturnPeriods()->detail($ventureId);
+				$venture = $this->venture->get($ventureId);
+				
 				$response = new VentureResponse();
 				$response->setId($venture->id);
 				$response->setTitle($venture->title);
@@ -46,11 +46,6 @@
 				$response->setProjectReturn($venture->project_return);
 				$response->setDuration($venture->duration);
 				$response->setFree($venture->free);
-				$response->setKeyFact($keyFact);
-				
-				isset($venture->impacts) ? $response->setImpact($venture->impacts) : [];
-				isset($venture->phases) ? $response->setPhase($venture->phases) : [];
-				isset($venture->partners) ? $response->setPartner($venture->partners) : [];
 				$response->setData();
 				
 				return $this->successResponse($response, trans('api.action_is_success'));
@@ -60,16 +55,83 @@
 			
 		}
 		
-		public function create(CreateVentureRequest $request)
+		public function create(AddVentureRequest $request)
 		{
 			$request->validated();
+			
+			try {
+				$title = $request->get('title');
+				$description = $request->get('description');
+				$color = $request->get('color');
+				$cover = $request->get('cover');
+				$capacity = $request->get('capacity');
+				$unitPrice = $request->get('unit_price');
+				$projectReturn = $request->get('project_return');
+				$duration = $request->get('duration');
+				$free = $request->get('free');
+				
+				$entity = new VentureEntity();
+				$entity->setTitle($title)
+					->setDescription($description)
+					->setColor($color)
+					->setCapacity($capacity)
+					->setCover($cover)
+					->setUnitPrice($unitPrice)
+					->setProjectReturn($projectReturn)
+					->setDuration($duration)
+					->setFree($free);
+				$this->venture->create($entity);
+				
+				$response = new AddVentureResponse();
+				$response->setData();
+				
+				return $this->successResponse($response, trans('api.action_is_success'));
+			} catch (\Exception $exception) {
+				return $this->FailResponse(trans('api.action_is_fail'), 400);
+			}
 			
 		}
 		
-		public function update(UpdatePageRequest $request)
+		public function update(UpdateVentureRequest $request)
 		{
 			$request->validated();
 			
+			try {
+				$ventureId = $request->get('venture_id');
+				
+				$venture = $this->venture->get($ventureId);
+				$title = $request->get('title') ?? $venture->title;
+				$description = $request->get('description') ?? $venture->description;
+				$color = $request->get('color') ?? $venture->color;
+				$cover = $request->get('cover') ?? $venture->cover;
+				$capacity = $request->get('capacity') ?? $venture->capacity;
+				$unitPrice = $request->get('unit_price') ?? $venture->unit_price;
+				$projectReturn = $request->get('project_return') ?? $venture->project_return;
+				$duration = $request->get('duration') ?? $venture->duration;
+				$free = $request->get('free') ?? $venture->free;
+
+				$this->venture->update(
+					$venture->id,
+					[
+						'title'          => $title,
+						'description'    => $description,
+						'color'          => $color,
+						'cover'          => $cover,
+						'capacity'       => $capacity,
+						'project_return' => $unitPrice,
+						'unit_price'     => $projectReturn,
+						'duration'       => $duration,
+						'free'           => $free
+					]
+				);
+				
+				$response = new AddVentureResponse();
+				$response->setData();
+				
+				return $this->successResponse($response, trans('api.action_is_success'));
+			} catch (\Exception $exception) {
+				return $this->FailResponse(trans('api.action_is_fail'), 400);
+			}
 		}
 		
 		public function list()

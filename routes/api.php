@@ -18,6 +18,7 @@
 		Route::post('auth/otp/verify', 'Api\V1\Main\Auth\OtpController@verify');
 		
 		
+		
 		Route::group(['middleware' => 'jwt.auth'], function () {
 			
 			//profile
@@ -34,6 +35,9 @@
 			Route::get('venture', 'Api\V1\Main\Venture\VentureController@index');
 			Route::get('ventures', 'Api\V1\Main\Venture\VentureController@list');
 			
+			//card
+			Route::post('cart/add', 'Api\V1\Main\Cart\CartController@add');
+			
 			//logout
 			Route::get('logout', 'Api\V1\Main\Auth\LogoutController@index');
 			
@@ -41,9 +45,6 @@
 	});
 	
 	Route::group(['prefix' => 'panel/v1'], function () {
-		Route::post('voucher', 'Api\V1\Panel\Voucher\VoucherController@create');
-		Route::put('voucher', 'Api\V1\Panel\Voucher\VoucherController@update');
-		
 		
 		Route::group(['middleware' => 'jwt.auth'], function () {
 			//user
@@ -60,8 +61,8 @@
 			Route::get('ventures', 'Api\V1\Panel\Venture\VentureController@list');
 			Route::get('venture', 'Api\V1\Panel\Venture\VentureController@index');
 			Route::delete('venture', 'Api\V1\Panel\Venture\VentureController@delete');
-			Route::put('venture', 'Api\V1\Panel\Venture\VentureController@update');
 			Route::post('venture', 'Api\V1\Panel\Venture\VentureController@create');
+			Route::put('venture', 'Api\V1\Panel\Venture\VentureController@update');
 			
 			//order
 			Route::get('orders', 'Api\V1\Panel\Order\OrderController@list');
@@ -72,7 +73,8 @@
 			//voucher
 			Route::get('voucher', 'Api\V1\Panel\Voucher\VoucherController@index');
 			Route::get('vouchers', 'Api\V1\Panel\Voucher\VoucherController@list');
-			
+			Route::post('voucher', 'Api\V1\Panel\Voucher\VoucherController@create');
+			Route::put('voucher', 'Api\V1\Panel\Voucher\VoucherController@update');
 		});
 	});
 

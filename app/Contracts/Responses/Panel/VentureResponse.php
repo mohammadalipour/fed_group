@@ -27,14 +27,6 @@
 		
 		protected $free;
 		
-		protected $impact;
-		
-		protected $phase;
-		
-		protected $partner;
-		
-		protected $keyFact;
-		
 		protected $data = [];
 		
 		/**
@@ -128,46 +120,6 @@
 		}
 		
 		/**
-		 * @param mixed $impact
-		 * @return VentureResponse
-		 */
-		public function setImpact($impact)
-		{
-			$this->impact = $impact;
-			return $this;
-		}
-		
-		/**
-		 * @param mixed $phase
-		 * @return VentureResponse
-		 */
-		public function setPhase($phase)
-		{
-			$this->phase = $phase;
-			return $this;
-		}
-		
-		/**
-		 * @param mixed $partner
-		 * @return VentureResponse
-		 */
-		public function setPartner($partner)
-		{
-			$this->partner = $partner;
-			return $this;
-		}
-		
-		/**
-		 * @param mixed $keyFact
-		 * @return VentureResponse
-		 */
-		public function setKeyFact($keyFact)
-		{
-			$this->keyFact = $keyFact;
-			return $this;
-		}
-		
-		/**
 		 * @param $id
 		 * @return $this
 		 */
@@ -194,10 +146,6 @@
 				'project_return' => $this->projectReturn,
 				'duration'       => $this->duration,
 				'free'           => $this->free,
-				'impacts'        => $this->impact,
-				'phases'         => $this->phase,
-				'partners'       => $this->partner,
-				'key_facts'      => $this->keyFact,
 			];
 			
 			return $this;
