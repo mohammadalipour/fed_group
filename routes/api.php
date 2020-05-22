@@ -42,6 +42,7 @@
 	
 	Route::group(['prefix' => 'panel/v1'], function () {
 		Route::post('voucher', 'Api\V1\Panel\Voucher\VoucherController@create');
+		Route::put('voucher', 'Api\V1\Panel\Voucher\VoucherController@update');
 		
 		
 		Route::group(['middleware' => 'jwt.auth'], function () {
