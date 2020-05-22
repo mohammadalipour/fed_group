@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\Panel;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class UpdatePageRequest extends FormRequest
 {
@@ -13,8 +17,9 @@ class UpdatePageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +29,35 @@ class UpdatePageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'page_id'       => 'required|exists:pages,id',
+            'content'          => 'required'
         ];
+    }
+
+    /**
+     *  Filters to be applied to the input.
+     *
+     * @return array
+     */
+    public function filters()
+    {
+        return [
+            'page_id'         => 'trim|lowercase'
+        ];
+    }
+
+    /**
+     * @param Validator $validator
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        $errors = (new ValidationException($validator))->errors();
+
+        throw new HttpResponseException(
+            response()->json(
+                ['errors' => $errors],
+                JsonResponse::HTTP_UNPROCESSABLE_ENTITY
+            )
+        );
     }
 }

@@ -52,11 +52,6 @@
 			
 		}
 		
-		public function create()
-		{
-			
-		}
-		
 		public function delete(DeleteOrderRequest $request)
 		{
 			$request->validated();
