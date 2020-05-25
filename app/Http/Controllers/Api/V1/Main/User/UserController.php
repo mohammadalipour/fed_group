@@ -88,4 +88,9 @@
 				return $this->FailResponse(trans('api.action_is_fail'), 400);
 			}
 		}
+		
+		public function portfolio()
+		{
+
+		}
 	}

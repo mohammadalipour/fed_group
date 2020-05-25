@@ -2,6 +2,7 @@
 	
 	namespace App;
 	
+	use Carbon\Carbon;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
 	use Illuminate\Notifications\Notifiable;
 	use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -62,5 +63,16 @@
 		public function assignRole(Role $role)
 		{
 			return $this->role()->save($role);
+		}
+		
+		public function cart()
+		{
+			return $this->hasOne(Cart::class, 'user_id', 'id')
+				->where('expired_at', '>', Carbon::now());
+		}
+		
+		public function order()
+		{
+			return $this->hasMany(Order::class, 'user_id', 'id');
 		}
 	}

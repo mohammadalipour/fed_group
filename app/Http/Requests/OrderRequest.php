@@ -8,7 +8,8 @@
 	use Illuminate\Http\JsonResponse;
 	use Illuminate\Validation\ValidationException;
 	
-	class VerifyOtpRequest extends FormRequest
+	
+	class OrderRequest extends FormRequest
 	{
 		/**
 		 * Determine if the user is authorized to make this request.
@@ -28,8 +29,7 @@
 		public function rules()
 		{
 			return [
-				'mobile_number' => 'required|exists:otp|numeric|regex:/(09)[0-9]{9}/',
-				'code'          => 'required|numeric',
+				'order_id' => 'required|exists:orders,id|numeric'
 			];
 		}
 		
@@ -41,8 +41,7 @@
 		public function filters()
 		{
 			return [
-				'mobile_number' => 'trim',
-				'code' => 'trim',
+				'order_id' => 'trim'
 			];
 		}
 		

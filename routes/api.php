@@ -25,6 +25,10 @@
 			Route::get('user/profile', 'Api\V1\Main\User\UserController@profile');
 			Route::put('user/profile', 'Api\V1\Main\User\UserController@update');
 			
+			//orders
+			Route::get('user/orders', 'Api\V1\Main\Order\OrderController@list');
+			Route::get('user/order', 'Api\V1\Main\Order\OrderController@index');
+			
 			//referral
 			Route::get('user/referral', 'Api\V1\Main\User\UserController@referral');
 			
@@ -35,12 +39,12 @@
 			Route::get('venture', 'Api\V1\Main\Venture\VentureController@index');
 			Route::get('ventures', 'Api\V1\Main\Venture\VentureController@list');
 			
-			//card
+			//cart
 			Route::post('cart/add', 'Api\V1\Main\Cart\CartController@add');
+			Route::get('cart', 'Api\V1\Main\Cart\CartController@index');
 			
 			//logout
 			Route::get('logout', 'Api\V1\Main\Auth\LogoutController@index');
-			
 		});
 	});
 	

@@ -1,15 +1,16 @@
 <?php
 	
-	namespace App\Http\Controllers\Api\V1\Panel\Order;
+	namespace App\Http\Controllers\Api\V1\Main\Order;
 	
-	use App\Contracts\Responses\Panel\DeleteOrderResponse;
-	use App\Contracts\Responses\Panel\OrderListResponse;
-	use App\Contracts\Responses\Panel\OrderResponse;
+	use App\Contracts\Responses\OrderListResponse;
+	use App\Contracts\Responses\OrderResponse;
 	use App\Entities\OrderEntity;
 	use App\Http\Controllers\Api\ApiController;
-	use App\Http\Requests\Panel\DeleteOrderRequest;
-	use App\Http\Requests\Panel\OrderRequest;
+	use App\Http\Requests\OrderRequest;
 	use App\Repositories\OrderRepository;
+	use App\Repositories\UserRepository;
+	use Tymon\JWTAuth\Facades\JWTAuth;
+	
 	
 	class OrderController extends ApiController
 	{
@@ -27,40 +28,16 @@
 		public function index(OrderRequest $request)
 		{
 			$request->validated();
-			$orderId = $request->get('order_id');
-			
 			try {
-				$order = $this->order->get($orderId)->load('items.venture','items.package','user');
+				$orderId = $request->get('order_id');
+				$order = $this->order->get($orderId)->load('items.venture','items.package');
 				
 				$response = new OrderResponse();
 				$response->setId($order->id);
 				$response->setItems($order->items);
-				$response->setUser($order->user);
 				$response->setStatus($order->status);
 				$response->setPrice($order->price);
 				$response->setDiscount($order->discount);
-				$response->setData();
-				
-				return $this->successResponse($response, trans('api.action_is_success'));
-			} catch (\Exception $exception) {
-				return $this->FailResponse(trans('api.action_is_fail'), 400);
-			}
-			
-		}
-		public function update()
-		{
-			
-		}
-		
-		public function delete(DeleteOrderRequest $request)
-		{
-			$request->validated();
-			
-			try {
-				$orderId = $request->get('order_id');
-				$this->order->delete($orderId);
-				
-				$response = new DeleteOrderResponse();
 				$response->setData();
 				
 				return $this->successResponse($response);
@@ -72,13 +49,16 @@
 		public function list()
 		{
 			try {
-				$ventures = $this->order->paginate();
+				$user = JWTAuth::parseToken()->authenticate();
+				
+				$userRepository = new UserRepository();
+				$orders = $userRepository->get($user->id)->order()->paginate()->load('items.venture', 'items.package');
 				
 				$response = new OrderListResponse();
-				$response->setItems($ventures);
+				$response->setItems($orders);
 				$response->setData();
 				
-				return $this->successResponse($response);
+				return $this->successResponse($response, trans('api.action_is_success'));
 			} catch (\Exception $exception) {
 				return $this->FailResponse(trans('api.action_is_fail'), 400);
 			}

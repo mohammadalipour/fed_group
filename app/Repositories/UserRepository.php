@@ -5,6 +5,7 @@
 	use App\Entities\Entity;
 	use App\Entities\UserEntity;
 	use App\User;
+	use Carbon\Carbon;
 	
 	class UserRepository implements RepositoryInterface
 	{
@@ -68,5 +69,15 @@
 		public function findByMobileNumber($mobileNumber)
 		{
 			return User::where('mobile_number', $mobileNumber)->first();
+		}
+		
+		public function cart()
+		{
+			return User::cart();
+		}
+		
+		public function order()
+		{
+			return User::order();
 		}
 	}

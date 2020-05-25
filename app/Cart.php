@@ -13,4 +13,15 @@
 			'count',
 			'expired_at'
 		];
+		
+		public function venture()
+		{
+			return $this->belongsTo(Venture::class, 'usage_id', 'id');
+		}
+		
+		
+		public function package()
+		{
+			return $this->belongsTo(Package::class, 'usage_id', 'id');
+		}
 	}
