@@ -1,9 +1,3 @@
-# Api-Auth
-
-### This test create on Tow Version :
-* Web
-* Api
-
 ## Running
 
 ```html
