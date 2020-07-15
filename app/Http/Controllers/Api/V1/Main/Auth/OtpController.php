@@ -2,11 +2,13 @@
 	
 	namespace App\Http\Controllers\Api\V1\Main\Auth;
 	
+	use App\Contracts\Response\UserRegisterResponse;
 	use App\Contracts\Responses\SendOtpResponse;
 	use App\Contracts\Responses\VerifyOtpResponse;
 	use App\Contracts\Services\Pigeon\Pigeon;
 	use App\Contracts\Services\Pigeon\Providers\KaveNegarProvider;
 	use App\Contracts\Services\Secretary\Secretary;
+	use App\Entities\UserEntity;
 	use App\Http\Controllers\Api\ApiController;
 	use App\Http\Requests\SendOtpRequest;
 	use App\Http\Requests\VerifyOtpRequest;
@@ -72,13 +74,22 @@
 				$userRepository = new UserRepository();
 				$response = new VerifyOtpResponse();
 				
-				if ($user = $userRepository->findByMobileNumber($mobileNumber)) {
+				if (!$user = $userRepository->findByMobileNumber($mobileNumber)) {
+					$userEntity = new UserEntity();
+					$userEntity->setEmail('');
+					$userEntity->setName($request->get('name') ?? '');
+					$userEntity->setPassword($request->get('password') ?? '12345');
+					$userEntity->setMobileNumber($mobileNumber);
+					$user = $userRepository->create($userEntity);
+					
 					$token = JWTAuth::fromUser($user);
-					$response->setIsUserRegistered(true);
-					$response->setUser($user->toArray());
-					$response->setToken($token);
+				} else {
+					$token = JWTAuth::fromUser($user);
 				}
 				
+				$response->setIsUserRegistered(true);
+				$response->setUser($user->toArray());
+				$response->setToken($token);
 				$response->setData();
 				
 				return $this->successResponse($response);
