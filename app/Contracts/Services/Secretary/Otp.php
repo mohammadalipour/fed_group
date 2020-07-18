@@ -110,7 +110,7 @@
 		public function validate()
 		{
 		    //TODO: This is for test if SMS provider dose not response
-		    if($this->code===12345){
+		    if($this->code==='12345'){
 		        return true;
             }
 

@@ -31,7 +31,7 @@
 				'name'          => 'required|string',
 				'email'         => 'sometimes|email',
 				'mobile_number' => 'required|numeric|unique:users|regex:/(09)[0-9]{9}/',
-				'password'      => 'required|string|min:6|max:10'
+				'password'      => 'sometimes|string|min:6|max:10'
 			];
 		}
 		
