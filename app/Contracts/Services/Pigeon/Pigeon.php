@@ -22,6 +22,7 @@
 		 */
 		public function send(string $message):bool
 		{
+		    return true;
 			return $this->provider->send($message);
 		}
 	}
