@@ -20,7 +20,6 @@
 		
 		
 		Route::group(['middleware' => 'jwt.auth'], function () {
-			
 			//profile
 			Route::get('user/profile', 'Api\V1\Main\User\UserController@profile');
 			Route::put('user/profile', 'Api\V1\Main\User\UserController@update');
