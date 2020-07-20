@@ -5,6 +5,7 @@
 	use App\Contracts\Responses\UpdateProfileResponse;
 	use App\Contracts\Responses\UserProfileResponse;
 	use App\Contracts\Responses\UserReferralResponse;
+	use App\Contracts\Responses\VerifyOtpResponse;
 	use App\Http\Controllers\Api\ApiController;
 	use App\Http\Requests\ProfileRequest;
 	use App\Http\Requests\UpdateProfileRequest;
@@ -32,10 +33,8 @@
 			try {
 				$user = JWTAuth::parseToken()->authenticate();
 				
-				$response = new UserProfileResponse();
-				$response->setName($user->name);
-				$response->setMobileNumber($user->mobile_number);
-				$response->setEmail($user->email);
+				$response = new VerifyOtpResponse();
+				$response->setUser($user->toArray());
 				$response->setData();
 				
 				return $this->successResponse($response);

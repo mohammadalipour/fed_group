@@ -19,7 +19,7 @@
 		
 		
 		
-		Route::group(['middleware' => 'jwt.auth'], function () {
+		Route::group(['middleware' => 'JwtMiddleware'], function () {
 			//profile
 			Route::get('user/profile', 'Api\V1\Main\User\UserController@profile');
 			Route::put('user/profile', 'Api\V1\Main\User\UserController@update');
@@ -49,7 +49,7 @@
 	
 	Route::group(['prefix' => 'panel/v1'], function () {
 		
-		Route::group(['middleware' => 'jwt.auth'], function () {
+		Route::group(['middleware' => 'JwtMiddleware'], function () {
 			//user
 			Route::get('users', 'Api\V1\Panel\User\UserController@list');
 			Route::get('user', 'Api\V1\Panel\User\UserController@index');
