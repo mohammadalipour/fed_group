@@ -11,12 +11,13 @@
 	|
 	*/
 	Route::group(['prefix' => 'v1'], function () {
-		//auth
-		Route::post('register', 'Api\V1\Main\Auth\RegisterController@index');
-		Route::post('login', 'Api\V1\Main\Auth\LoginController@index');
-		Route::post('auth/otp/send', 'Api\V1\Main\Auth\OtpController@send');
-		Route::post('auth/otp/verify', 'Api\V1\Main\Auth\OtpController@verify');
-		
+        Route::group(['middleware' => 'jwt.auth'], function () {
+            //auth
+            Route::post('register', 'Api\V1\Main\Auth\RegisterController@index');
+            Route::post('login', 'Api\V1\Main\Auth\LoginController@index');
+            Route::post('auth/otp/send', 'Api\V1\Main\Auth\OtpController@send');
+            Route::post('auth/otp/verify', 'Api\V1\Main\Auth\OtpController@verify');
+        });
 		
 		
 		Route::group(['middleware' => 'JwtMiddleware'], function () {
