@@ -35,6 +35,7 @@
 				
 				$response = new VerifyOtpResponse();
 				$response->setUser($user->toArray());
+				$response->setIsUserRegistered(true);
 				$response->setData();
 				
 				return $this->successResponse($response);
