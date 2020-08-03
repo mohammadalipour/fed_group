@@ -52,7 +52,6 @@
 				
 				return $this->successResponse($response, trans('api.action_is_success'));
 			} catch (\Exception $exception) {
-				dd($exception->getMessage());
 				return $this->FailResponse(trans('api.action_is_fail'), 400);
 			}
 		}
