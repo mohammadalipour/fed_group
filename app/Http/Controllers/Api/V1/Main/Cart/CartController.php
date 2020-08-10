@@ -7,7 +7,8 @@
 	use App\Contracts\Services\Basket\BasketService;
 	use App\Http\Controllers\Api\ApiController;
 	use App\Http\Requests\AddToCartRequest;
-	use App\Repositories\CartRepository;
+    use App\Http\Requests\RemoveFromCartRequest;
+    use App\Repositories\CartRepository;
 	use App\Repositories\UserRepository;
 	use Tymon\JWTAuth\Facades\JWTAuth;
 	
@@ -47,13 +48,15 @@
 			$request->validated();
 			
 			try {
-				$basketService = new BasketService($request->get('type'));
+				$basketService = new BasketService();
                 $user = JWTAuth::parseToken()->authenticate();
 
 				$usageId = $request->get('usage_id');
 				$count = $request->get('count');
 				
-				$basketService->add($usageId, $user->id, $count);
+				$basketService
+                    ->setType($request->get('type'))
+                    ->add($usageId, $user->id, $count);
 				
 				$response = new AddToCartResponse();
 				$response->setData();
@@ -62,5 +65,22 @@
 			} catch (\Exception $exception) {
 				return $this->FailResponse(trans('api.action_is_fail'), 400);
 			}
+		}
+
+        public function remove(RemoveFromCartRequest $request)
+        {
+            $request->validated();
+
+            try {
+                $basketService = new BasketService();
+                $cartId = $request->get('cart_id');
+                $basketService->remove($cartId);
+
+                $response = new AddToCartResponse();
+                $response->setData();
+                return $this->successResponse($response, trans('api.action_is_success'));
+            }catch (\Exception $exception){
+                return $this->FailResponse(trans('api.action_is_fail'), 400);
+            }
 		}
 	}

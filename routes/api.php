@@ -39,7 +39,8 @@
 			//cart
 			Route::post('cart/add', 'Api\V1\Main\Cart\CartController@add');
 			Route::get('cart', 'Api\V1\Main\Cart\CartController@index');
-			
+			Route::delete('cart', 'Api\V1\Main\Cart\CartController@remove');
+
 			//logout
 			Route::get('logout', 'Api\V1\Main\Auth\LogoutController@index');
 		});
