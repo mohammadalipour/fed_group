@@ -48,12 +48,12 @@
 			
 			try {
 				$basketService = new BasketService($request->get('type'));
-				
-				$userId = $request->get('user_id');
+                $user = JWTAuth::parseToken()->authenticate();
+
 				$usageId = $request->get('usage_id');
 				$count = $request->get('count');
 				
-				$basketService->add($usageId, $userId, $count);
+				$basketService->add($usageId, $user->id, $count);
 				
 				$response = new AddToCartResponse();
 				$response->setData();

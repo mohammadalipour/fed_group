@@ -29,7 +29,6 @@
 		public function rules()
 		{
 			return [
-				'user_id'  => 'required|exists:users,id|numeric',
 				'type'     => 'required|in:venture,package',
 				'usage_id' => 'required|numeric',
 				'count'    => 'required|numeric',
