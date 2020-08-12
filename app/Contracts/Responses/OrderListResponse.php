@@ -29,9 +29,7 @@
 		
 		public function setData()
 		{
-			$this->data = [
-				$this->items
-			];
+			$this->data = $this->items;
 			
 			return $this;
 		}
